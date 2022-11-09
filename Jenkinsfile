@@ -27,11 +27,11 @@ pipeline {
                     agent {
                         docker { image 'debian'}
                     }
+                    
                     steps {
                         sh '''
-                            apt-get update
-                            apt-get install -y python3
-                            python3 --version
+                            echo Running parallel stage 1
+                            for i in {1..20} ; do sleep 1; echo -ne '.' ; done
                         '''
                     }
                 }
@@ -41,8 +41,8 @@ pipeline {
                     }
                     steps {
                         sh '''
-                            echo Running parallel
-                            for i in {1..20} ; do sleep 1; echo -ne '.' ; done
+                            echo Running parallel stage 2
+                            for i in {100..120} ; do sleep 1; echo -ne '.' ; done
                         '''
                     }
                 }
