@@ -21,5 +21,32 @@ pipeline {
                 '''
             }
         }
+        stage('Parallel-stages') {
+            parallel {
+                stage('Stage-1') {
+                    agent {
+                        docker { image 'debian'}
+                    }
+                    steps {
+                        sh '''
+                            apt-get update
+                            apt-get install -y python3
+                            python3 --version
+                        '''
+                    }
+                }
+                stage('Stage-2') {
+                    agent {
+                        docker { image 'ubuntu' }
+                    }
+                    steps {
+                        sh '''
+                            echo Running parallel
+                            for i in {1..20} ; do sleep 1; echo -ne '.' ; done
+                        '''
+                    }
+                }
+            }
+        }
     }
 }
